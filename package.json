@@ -1,24 +1,20 @@
 {
   "name": "@flat-peak/api-service",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
-  "main": "index.js",
-  "files": [
-    "./types/**/*",
-    "./dist/**/*"
-  ],
-  "module": "./dist/cjs/index.js",
-  "browser": "./dist/es/index.js",
-  "types": "./types/index.d.ts",
+  "main": "./lib/cjs/index.js",
+  "module": "./lib/cjs/index.js",
+  "browser": "./lib/es/index.js",
+  "types": "./@types/index.d.ts",
   "exports": {
     ".": {
       "import": {
-        "types": "./types/index.d.ts",
-        "default": "./dist/es/index.js"
+        "types": "./@types/index.d.ts",
+        "default": "./lib/es/index.js"
       },
       "require": {
-        "types": "./types/index.d.ts",
-        "default": "./dist/cjs/index.js"
+        "types": "./@types/index.d.ts",
+        "default": "./lib/cjs/index.js"
       }
     }
   },
@@ -42,6 +38,6 @@
     "rollup": "^3.7.4"
   },
   "dependencies": {
-    "node-fetch": "^3.3.0"
+    "node-fetch": "2.6.6"
   }
 }
