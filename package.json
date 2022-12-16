@@ -1,0 +1,47 @@
+{
+  "name": "@flat-peak/api-service",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "files": [
+    "./types/**/*",
+    "./dist/**/*"
+  ],
+  "module": "./dist/cjs/index.js",
+  "browser": "./dist/es/index.js",
+  "types": "./types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./types/index.d.ts",
+        "default": "./dist/es/index.js"
+      },
+      "require": {
+        "types": "./types/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    }
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "build:types": "npx -p typescript tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flat-peak/api-service.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/flat-peak/api-service/issues"
+  },
+  "homepage": "https://github.com/flat-peak/api-service#readme",
+  "devDependencies": {
+    "rollup": "^3.7.4"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.0"
+  }
+}
