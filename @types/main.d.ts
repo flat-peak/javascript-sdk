@@ -37,6 +37,10 @@ export class FlatpeakService {
     authoriseRequest(init: RequestInit): Promise<RequestInit>;
     performRequest(input: any, init?: number): Promise<Response>;
     /**
+     * @return {Promise<FlatPeak.Account>}
+     */
+    getAccount(): Promise<FlatPeak.Account>;
+    /**
      * @param {string} [macAddress]
      * @param {string} [customerId]
      * @return {Promise<{usable: boolean}>}
