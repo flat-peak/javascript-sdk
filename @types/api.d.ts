@@ -900,11 +900,11 @@ export namespace FlatPeak {
     /**
      * An array of tariff objects, grouped by time of tariff change
      */
-    export?: Export[];
+    export?: ProductExport[];
     /**
      * An array of tariff objects, grouped by time of tariff change
      */
-    import?: Import[];
+    import?: ProductImport[];
     /**
      * Time when rates were last updated.
      */
@@ -919,7 +919,7 @@ export namespace FlatPeak {
     product_id?: string;
   }
 
-  export interface Export {
+  export interface ProductExport {
     /**
      * The rates (i.e. tariff, energy price) object
      */
@@ -948,7 +948,7 @@ export namespace FlatPeak {
     cost?: number;
   }
 
-  export interface Import {
+  export interface ProductImport {
     /**
      * Grid load index
      */
