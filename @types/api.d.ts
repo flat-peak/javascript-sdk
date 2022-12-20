@@ -1025,7 +1025,7 @@ export namespace FlatPeak {
     /**
      * Export object, i.e. electricity provided by the supply point to the grid.
      */
-    export: TariffWeekday[];
+    export: TariffSchedule[];
     /**
      * Unique Tariff Plan Id.
      */
@@ -1033,7 +1033,7 @@ export namespace FlatPeak {
     /**
      * Import object, i.e. electricity provided by the grid to the supply point.
      */
-    import: TariffWeekday[];
+    import: TariffSchedule[];
     /**
      * The Object name, i.e. tariff.
      */
@@ -1060,16 +1060,16 @@ export namespace FlatPeak {
    * This object represents a `weekday` tariff model. I.e. a tariff that varies by season &
    * day of the week.
    */
-  export interface TariffWeekday {
-    data?: TariffWeekdayDatum[];
+  export interface TariffSchedule {
+    data?: TariffScheduleDatum[];
     /**
      * Tariff type. i.e. `weekday`.
      */
     type?: string;
   }
 
-  export interface TariffWeekdayDatum {
-    days_and_hours?: DaysAndHour[];
+  export interface TariffScheduleDatum {
+    days_and_hours?: TariffScheduleDaysAndHours[];
     /**
      * An array of months when tariff applies, possible values: Jan-Dec, All (for all months of
      * the year).
@@ -1077,7 +1077,7 @@ export namespace FlatPeak {
     months?: string[];
   }
 
-  export interface DaysAndHour {
+  export interface TariffScheduleDaysAndHours {
     /**
      * An array of days of the week when tariff applies, possible values: Mon-Sun,
      * Weekday-Weekend (the first day of the week will be determined from country code), All
@@ -1087,10 +1087,10 @@ export namespace FlatPeak {
     /**
      * A time period in hours, minutes and seconds.
      */
-    hours?: TariffHourPeriod[];
+    hours?: TariffScheduleHours[];
   }
 
-  export interface TariffHourPeriod {
+  export interface TariffScheduleHours {
     /**
      * Cost (price) of electricity in small currency units.
      */
@@ -1112,11 +1112,11 @@ export namespace FlatPeak {
     /**
      * Export object, i.e. electricity provided by the supply point to the grid
      */
-    export?: TariffWeekday[];
+    export?: TariffSchedule[];
     /**
      * Import object, i.e. electricity provided by the grid to the supply point
      */
-    import?: TariffWeekday[];
+    import?: TariffSchedule[];
     /**
      * Id of the Product object which Tariff Plan relates to
      */
