@@ -9,7 +9,7 @@ export namespace FlatPeak {
     /**
      * Allowed callback URLs for app-integration
      */
-    allowed_origins?: any[];
+    allowed_origins?:  any[];
     display_settings?: DisplaySettings;
     /**
      * FlatPeak unique object Id.
@@ -18,7 +18,7 @@ export namespace FlatPeak {
     /**
      * Disables the object when set to false.
      */
-    is_enabled: boolean;
+    is_enabled:     boolean;
     legal_profile?: LegalProfile;
     /**
      * Has the value true if the object exists in live mode or the value false if the object
@@ -58,6 +58,10 @@ export namespace FlatPeak {
      */
     default_language?: string;
     /**
+     * Graphic objects required to render the app and integrations frontend.
+     */
+    graphic_assets?: GraphicAssets;
+    /**
      * An array of objects required to render the app and integrations frontend.
      */
     language_assets?: LanguageAsset[];
@@ -65,6 +69,16 @@ export namespace FlatPeak {
      * Represents the object’s type.
      */
     object?: string;
+  }
+
+  /**
+   * Graphic objects required to render the app and integrations frontend.
+   */
+  export interface GraphicAssets {
+    /**
+     * Main accent color that will be used in highlights.
+     */
+    accent_color?: string;
   }
 
   export interface LanguageAsset {
@@ -114,9 +128,9 @@ export namespace FlatPeak {
     /**
      * Represents the object’s type.
      */
-    object?: string;
+    object?:         string;
     postal_address?: PostalAddress;
-    terms?: Terms;
+    terms?:          Terms;
   }
 
   /**
@@ -175,12 +189,12 @@ export namespace FlatPeak {
     /**
      * Allowed callback URLs for app-integration.
      */
-    allowed_origins?: any[];
+    allowed_origins?:  any[];
     display_settings?: DisplaySettings;
     /**
      * Disables the object when set to `false`.
      */
-    is_enabled?: boolean;
+    is_enabled?:    boolean;
     legal_profile?: LegalProfile;
     /**
      * Has the value `true` if the object exists in live mode or the value false if the object
@@ -202,14 +216,14 @@ export namespace FlatPeak {
     /**
      * Allowed callback URLs for app-integration.
      */
-    allowed_origins?: any[];
+    allowed_origins?:  any[];
     display_settings?: DisplaySettings;
     /**
      * Disables the object when set to `false`.
      */
-    is_enabled?: boolean;
+    is_enabled?:    boolean;
     legal_profile?: LegalProfile;
-    live_mode?: boolean;
+    live_mode?:     boolean;
     /**
      * FlatPeak unique object id of associated provider.
      */
@@ -229,7 +243,7 @@ export namespace FlatPeak {
     /**
      * Allowed callback domains. Used by integration to filter allowed callbacks.
      */
-    allowed_origins?: any[];
+    allowed_origins?:  any[];
     display_settings?: DisplaySettings;
     /**
      * FlatPeak unique object Id.
@@ -266,7 +280,7 @@ export namespace FlatPeak {
   }
 
   export interface Consumption {
-    data?: DatumElement[];
+    data?:   DatumElement[];
     object?: string;
   }
 
@@ -379,7 +393,7 @@ export namespace FlatPeak {
     /**
      * Optional object description
      */
-    description?: string;
+    description?:      string;
     hardware_profile?: HardwareProfile;
     /**
      * FlatPeak unique object `id`.
@@ -445,7 +459,7 @@ export namespace FlatPeak {
     /**
      * Optional object description
      */
-    description?: string;
+    description?:      string;
     hardware_profile?: HardwareProfile;
     /**
      * Disables the object when set to `false`.
@@ -472,7 +486,7 @@ export namespace FlatPeak {
     /**
      * Optional object description
      */
-    description?: string;
+    description?:      string;
     hardware_profile?: HardwareProfile;
     /**
      * Disables the object when set to `false`.
@@ -522,8 +536,8 @@ export namespace FlatPeak {
     /**
      * An array of uniquie Id of associated Devices
      */
-    devices?: string[];
-    geo_location?: string[];
+    devices?:      string[];
+    geo_location?: number[];
     /**
      * FlatPeak unique product Id
      */
@@ -541,12 +555,12 @@ export namespace FlatPeak {
     /**
      * Represents the object’s type. I.e. `product`.
      */
-    object: string;
+    object:          string;
     postal_address?: PostalAddress;
     /**
      * A uniquie Id of associated Provider
      */
-    provider_id: string;
+    provider_id:      string;
     tariff_settings?: TariffSettings;
     /**
      * Time when the object was created, in UTC.
@@ -565,10 +579,6 @@ export namespace FlatPeak {
   export interface TariffSettings {
     auth_metadata?: TariffAuthMetadata;
     /**
-     * Tariff plan name
-     */
-    display_name?: string;
-    /**
      * Set to true if tariff plan is connected to energy provider via online integration
      */
     integrated?: boolean;
@@ -576,6 +586,11 @@ export namespace FlatPeak {
      * Set to true if tariff plan is enabled
      */
     is_enabled?: boolean;
+    /**
+     * Time of last update of the tariff in unix format. This value is automatically calculated
+     * on tariff create and cannot be updated here.
+     */
+    last_update_time?: number;
     /**
      * Time of next update of the tariff in unix format
      */
@@ -610,9 +625,9 @@ export namespace FlatPeak {
     /**
      * Represents the object’s type. I.e. `auth_metadata`.
      */
-    object?: string;
+    object?:   string;
     password?: string;
-    user?: string;
+    user?:     string;
   }
 
   /**
@@ -626,13 +641,13 @@ export namespace FlatPeak {
     /**
      * An array of FlatPeak id of associated Devices
      */
-    devices?: string[];
-    geo_location?: string[];
+    devices?:        string[];
+    geo_location?:   number[];
     postal_address?: PostalAddress;
     /**
      * FlatPeak id of the associated Provider
      */
-    provider_id: string;
+    provider_id:      string;
     tariff_settings?: TariffSettings;
     /**
      * The timezone of the object in 'tz database format'. I.e. 'Europe/Berlin'.
@@ -663,9 +678,9 @@ export namespace FlatPeak {
     /**
      * An array of FlatPeak id of associated Devices
      */
-    devices?: string[];
-    geo_location?: string[];
-    postal_address?: PostalAddress;
+    devices?:         string[];
+    geo_location?:    number[];
+    postal_address?:  PostalAddress;
     tariff_settings?: TariffSettings;
     /**
      * The timezone of the object in 'tz database format'. I.e. 'Europe/Berlin'.
@@ -693,7 +708,7 @@ export namespace FlatPeak {
     /**
      * Currency code, such as USD or GBP
      */
-    currency_code?: string;
+    currency_code?:    string;
     display_settings?: DisplaySettings;
     /**
      * FlatPeak unique object `id`.
@@ -762,7 +777,7 @@ export namespace FlatPeak {
     /**
      * Currency code, such as GBP or EUR
      */
-    currency_code: string;
+    currency_code:     string;
     display_settings?: DisplaySettings;
     /**
      * Access URLs for the Integration app.
@@ -810,7 +825,7 @@ export namespace FlatPeak {
     /**
      * Short coded name of the provider.
      */
-    code_name?: string;
+    code_name?:        string;
     display_settings?: DisplaySettings;
     /**
      * Access URLs for the Integration app.
@@ -1000,45 +1015,56 @@ export namespace FlatPeak {
   }
 
   /**
-   * This object represents a tariff (plan).
+   * This object represents a tariff.
    */
   export interface Tariff {
     /**
-     * Export object, i.e. electricity provided by the supply point to the grid
+     * Tariff plan name.
      */
-    export?: TariffSchedule[];
+    display_name: string;
     /**
-     * Unique Tariff Plan Id
+     * Export object, i.e. electricity provided by the supply point to the grid.
+     */
+    export: TariffSchedule[];
+    /**
+     * Unique Tariff Plan Id.
      */
     id: string;
     /**
-     * Import object, i.e. electricity provided by the grid to the supply point
+     * Import object, i.e. electricity provided by the grid to the supply point.
      */
-    import?: TariffSchedule[];
+    import: TariffSchedule[];
     /**
-     * The Object name, i.e. tariff
+     * The Object name, i.e. tariff.
      */
     object: string;
     /**
-     * Id of the Product object which plan relates to
+     * Id of the Product object which plan relates to.
      */
     product_id: string;
     /**
-     * Timestamp when the plan was created, in UTC. This value is automatically populated by API
+     * Timestamp when the plan was created, in UTC. This value is automatically populated by API.
      */
     time_created: string;
     /**
-     * Expiration time, in UTC
+     * Expiration time, in UTC.
      */
     time_expiry?: string;
     /**
-     * The timezone of the plan, usually matches the Product timezone, in tz database format
+     * The timezone of the plan, usually matches the Product timezone, in tz database format.
      */
     timezone?: string;
   }
 
+  /**
+   * This object represents a `weekday` tariff model. I.e. a tariff that varies by season &
+   * day of the week.
+   */
   export interface TariffSchedule {
     data?: TariffScheduleDatum[];
+    /**
+     * Tariff type. i.e. `weekday`.
+     */
     type?: string;
   }
 
@@ -1046,7 +1072,7 @@ export namespace FlatPeak {
     days_and_hours?: TariffScheduleDaysAndHours[];
     /**
      * An array of months when tariff applies, possible values: Jan-Dec, All (for all months of
-     * the year)
+     * the year).
      */
     months?: string[];
   }
@@ -1055,21 +1081,27 @@ export namespace FlatPeak {
     /**
      * An array of days of the week when tariff applies, possible values: Mon-Sun,
      * Weekday-Weekend (the first day of the week will be determined from country code), All
-     * (for all days of the week)
+     * (for all days of the week).
      */
     days?: string[];
     /**
-     * Hours of the day
+     * A time period in hours, minutes and seconds.
      */
     hours?: TariffScheduleHours[];
   }
 
   export interface TariffScheduleHours {
     /**
-     * Cost (price) in small units
+     * Cost (price) of electricity in small currency units.
      */
     cost?: number;
+    /**
+     * Start time of when cost is applied.
+     */
     valid_from?: string;
+    /**
+     * End time of when cost is applied.
+     */
     valid_to?: string;
   }
 
