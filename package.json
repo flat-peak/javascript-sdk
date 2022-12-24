@@ -1,5 +1,5 @@
 {
-  "name": "@flat-peak/api-service",
+  "name": "@flatpeak/api-service",
   "version": "0.0.3",
   "description": "",
   "main": "./lib/cjs/index.js",
