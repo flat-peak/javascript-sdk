@@ -1,5 +1,3 @@
-import {FlatPeak} from "./api";
-
 export class FlatpeakService {
     /**
      * @param {string} host
@@ -107,4 +105,12 @@ export class FlatpeakService {
      * @return {Promise<FlatPeak.Device>}
      */
     createDevice(data: FlatPeak.DeviceCreate): Promise<FlatPeak.Device>;
+    /**
+     * Initiate product update pull
+     * @param {string} providerId
+     * @param {Array<string>} referenceIds
+     * @param {Array<string>} productIds
+     * @return {Promise<Object>}
+     */
+    initiateProductUpdate(providerId: string, referenceIds: Array<string>, productIds: Array<string>): Promise<any>;
 }
