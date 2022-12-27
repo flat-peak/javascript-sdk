@@ -261,7 +261,7 @@ export class FlatpeakService {
         if (this.verbose) {
             console.log("performRequest", input, init);
         }
-        const response = fetch(input, init);
-       return await response.json();
+        const response = await fetch(input, init);
+        return await response.json();
     }
 }
