@@ -113,4 +113,11 @@ export class FlatpeakService {
      * @return {Promise<Object>}
      */
     initiateProductUpdate(providerId: string, referenceIds: Array<string>, productIds: Array<string>): Promise<any>;
+    /**
+     * Retrieve rates for a device
+     * @param {string} deviceId
+     * @param {number} ratesPeriod
+     * @return {Promise<any>}
+     */
+    fetchRatesForDevice(deviceId: string, ratesPeriod: number): Promise<any>;
 }

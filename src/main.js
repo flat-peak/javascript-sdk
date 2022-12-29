@@ -1,4 +1,5 @@
 import {objectToQueryString} from "./util";
+import {Buffer} from "buffer";
 
 export class FlatpeakService {
     /**
@@ -264,4 +265,26 @@ export class FlatpeakService {
         const response = await fetch(input, init);
         return await response.json();
     }
+
+    /**
+     * Retrieve rates for a device
+     * @param {string} deviceId
+     * @param {number} ratesPeriod
+     * @return {Promise<any>}
+     */
+    async fetchRatesForDevice(deviceId, ratesPeriod) {
+        const input = `${this.host}/rates/device/${deviceId}?rates_period=${ratesPeriod}`;
+        const init = {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Basic ${Buffer.from(deviceId + ":").toString("base64")}`,
+            }
+        };
+        if (this.verbose) {
+            console.log("performRequest", input, init);
+        }
+        const response = await fetch(input, init);
+        return await response.json();
+    }
+
 }
