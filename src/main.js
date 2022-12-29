@@ -1,5 +1,4 @@
 import {objectToQueryString} from "./util";
-import {Buffer} from "buffer";
 
 export class FlatpeakService {
     /**
