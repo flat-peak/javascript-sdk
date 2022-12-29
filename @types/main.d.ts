@@ -108,11 +108,11 @@ export class FlatpeakService {
     /**
      * Initiate product update pull
      * @param {string} providerId
-     * @param {Array<string>} referenceIds
-     * @param {Array<string>} productIds
+     * @param {Array<string>} [referenceIds]
+     * @param {Array<string>} [productIds]
      * @return {Promise<Object>}
      */
-    initiateProductUpdate(providerId: string, referenceIds: Array<string>, productIds: Array<string>): Promise<any>;
+    initiateProductUpdate(providerId: string, referenceIds?: Array<string>, productIds?: Array<string>): Promise<any>;
     /**
      * Retrieve rates for a device
      * @param {string} deviceId

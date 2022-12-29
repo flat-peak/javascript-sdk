@@ -238,11 +238,11 @@ export class FlatpeakService {
     /**
      * Initiate product update pull
      * @param {string} providerId
-     * @param {Array<string>} referenceIds
-     * @param {Array<string>} productIds
+     * @param {Array<string>} [referenceIds]
+     * @param {Array<string>} [productIds]
      * @return {Promise<Object>}
      */
-    async initiateProductUpdate(providerId, referenceIds, productIds) {
+    async initiateProductUpdate(providerId, referenceIds= [], productIds = []) {
         const input = `${this.host}/products`;
         const init = {
             headers: {
@@ -251,7 +251,10 @@ export class FlatpeakService {
             method: "PATCH",
             body: JSON.stringify(
                 Object.assign(
-                    { "action": "pull_tariff"},
+                    {
+                        "action": "pull_tariff",
+                        "provider_id": providerId
+                    },
                     referenceIds.length
                         ? {reference_ids: referenceIds}
                         : {product_ids: productIds}
