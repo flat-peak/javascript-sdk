@@ -238,11 +238,11 @@ export class FlatpeakService {
     /**
      * Initiate product update pull
      * @param {string} providerId
-     * @param {Array<string>} referenceIds
-     * @param {Array<string>} productIds
+     * @param {Array<string>} [referenceIds]
+     * @param {Array<string>} [productIds]
      * @return {Promise<Object>}
      */
-    async initiateProductUpdate(providerId, referenceIds, productIds) {
+    async initiateProductUpdate(providerId, referenceIds= [], productIds = []) {
         const input = `${this.host}/products`;
         const init = {
             headers: {
@@ -251,7 +251,10 @@ export class FlatpeakService {
             method: "PATCH",
             body: JSON.stringify(
                 Object.assign(
-                    { "action": "pull_tariff"},
+                    {
+                        "action": "pull_tariff",
+                        "provider_id": providerId
+                    },
                     referenceIds.length
                         ? {reference_ids: referenceIds}
                         : {product_ids: productIds}
@@ -262,6 +265,28 @@ export class FlatpeakService {
             console.log("performRequest", input, init);
         }
         const response = await fetch(input, init);
+        return response.status === 202 ? {} : await response.json();
+    }
+
+    /**
+     * Retrieve rates for a device
+     * @param {string} deviceId
+     * @param {number} ratesPeriod
+     * @return {Promise<any>}
+     */
+    async fetchRatesForDevice(deviceId, ratesPeriod) {
+        const input = `${this.host}/rates/device/${deviceId}?rates_period=${ratesPeriod}`;
+        const init = {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Basic ${Buffer.from(deviceId + ":").toString("base64")}`,
+            }
+        };
+        if (this.verbose) {
+            console.log("performRequest", input, init);
+        }
+        const response = await fetch(input, init);
         return await response.json();
     }
+
 }
