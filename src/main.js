@@ -145,6 +145,17 @@ export class FlatpeakService {
     }
 
     /**
+     * @param {string} providerId
+     * @return {Promise<FlatPeak.Provider>}
+     */
+    async getProvider(providerId) {
+        const response = await this.performRequest(
+            `${this.host}/providers/${providerId}`,
+        );
+        return await response.json();
+    };
+
+    /**
      * Create a tariff plan
      * @param {FlatPeak.TariffCreate} data
      * @return {Promise<FlatPeak.Tariff>}

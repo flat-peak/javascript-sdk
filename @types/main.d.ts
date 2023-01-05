@@ -63,6 +63,11 @@ export class FlatpeakService {
      */
     getProviders(keywords?: string, countryCode?: string): Promise<Array<FlatPeak.Provider>>;
     /**
+     * @param {string} providerId
+     * @return {Promise<FlatPeak.Provider>}
+     */
+    getProvider(providerId: string): Promise<FlatPeak.Provider>;
+    /**
      * Create a tariff plan
      * @param {FlatPeak.TariffCreate} data
      * @return {Promise<FlatPeak.Tariff>}
