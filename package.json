@@ -1,6 +1,6 @@
 {
-  "name": "@flatpeak/api-service",
-  "version": "0.0.11",
+  "name": "@flat-peak/javascript-sdk",
+  "version": "1.0.0",
   "description": "",
   "main": "./lib/cjs/index.js",
   "module": "./lib/cjs/index.js",
@@ -25,15 +25,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/flat-peak/api-service.git"
+    "url": "git+https://github.com/flat-peak/javascript-sdk.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "FlatPeak",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/flat-peak/api-service/issues"
+    "url": "https://github.com/flat-peak/javascript-sdk/issues"
   },
-  "homepage": "https://github.com/flat-peak/api-service#readme",
+  "homepage": "https://flatpeak.energy",
   "devDependencies": {
     "rollup": "^3.7.4"
   },
