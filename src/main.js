@@ -49,7 +49,7 @@ export class FlatpeakService {
    * @param {RequestInit} init
    * @return {RequestInit}
    */
-  async authoriseRequest(init) {
+  authoriseRequest(init) {
     const headers = {
       'Content-Type': 'application/json',
       'Authorization': this.authWithPublishableKey(),
