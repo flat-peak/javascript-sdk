@@ -1,4 +1,2 @@
-import {FlatPeak} from "./api";
-import {FlatpeakService} from "./main";
-
-export {FlatpeakService, FlatPeak}
+export * from "./api";
+export * from "./main";

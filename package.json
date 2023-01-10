@@ -21,6 +21,7 @@
   "scripts": {
     "build": "rollup -c",
     "build:types": "npx -p typescript tsc",
+    "lintfix": "npx eslint . --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -35,7 +36,9 @@
   },
   "homepage": "https://flatpeak.energy",
   "devDependencies": {
-    "rollup": "^3.7.4"
+    "rollup": "^3.7.4",
+    "eslint": "^8.30.0",
+    "eslint-config-google": "^0.14.0"
   },
   "dependencies": {
     "node-fetch": "2.6.7"
