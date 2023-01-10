@@ -276,7 +276,8 @@ export class FlatpeakService {
     const input = `${this.host}/products`;
     const init = {
       headers: {
-        'provider-id': providerId,
+        'Content-Type': 'application/json',
+        'Authorization': `Basic ${Buffer.from(providerId + ':').toString('base64')}`
       },
       method: 'PATCH',
       body: JSON.stringify(
