@@ -1,13 +1,16 @@
+import {FlatPeak} from "./api";
+
 export class FlatpeakService {
     /**
      * @param {string} host
      * @param {string} publishableKey
-     * @param {boolean} verbose
+     * @param {boolean|Function} verbose
      */
-    constructor(host: string, publishableKey: string, verbose?: boolean);
+    constructor(host: string, publishableKey: string, verbose?: boolean | Function);
     _publishableKey: string;
     _host: string;
-    _verbose: boolean;
+    _verbose: boolean | Function;
+    logFn: Function;
     /**
      * @private
      * @return {string}
@@ -30,10 +33,26 @@ export class FlatpeakService {
     private authWithPublishableKey;
     /**
      * @param {RequestInit} init
-     * @return {Promise<RequestInit>}
+     * @return {RequestInit}
      */
-    authoriseRequest(init: RequestInit): Promise<RequestInit>;
-    performRequest(input: any, init?: number): Promise<Response>;
+    authoriseRequest(init: RequestInit): RequestInit;
+    /**
+     * @param {RequestInfo} input
+     * @param {RequestInit} [init]
+     * @return {Promise<Response>}
+     */
+    performSignedRequest(input: RequestInfo, init?: RequestInit): Promise<Response>;
+    /**
+     * @param {RequestInfo} input
+     * @param {RequestInit} [init]
+     * @return {Promise<Response>}
+     */
+    performPublicRequest(input: RequestInfo, init?: RequestInit): Promise<Response>;
+    /**
+     * @param {Promise<Response>} request
+     * @return {Promise<Object>}
+     */
+    processRequest(request: Promise<Response>): Promise<any>;
     /**
      * @return {Promise<FlatPeak.Account>}
      */
