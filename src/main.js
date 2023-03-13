@@ -1,5 +1,3 @@
-import {objectToQueryString} from './util';
-
 export class FlatpeakService {
   /**
    * @param {string} host
@@ -119,18 +117,12 @@ export class FlatpeakService {
   }
 
   /**
-   * @param {string} [macAddress]
-   * @param {string} [customerId]
+   * @param {object} [query]
    * @return {Promise<{usable: boolean}>}
    */
-  checkMacAddress(macAddress, customerId) {
-    const qs = objectToQueryString({
-      mac: macAddress,
-      customer_id: customerId,
-    });
-
+  checkMacAddress(query) {
     return this.processRequest(this.performSignedRequest(
-        `${this.host}/devices${qs ? '?' + qs : ''}`,
+        `${this.host}/devices?${(new URLSearchParams(query)).toString()}`,
         {
           method: 'PUT',
         },
@@ -158,16 +150,13 @@ export class FlatpeakService {
   }
 
   /**
-   * @param {string} [keywords]
-   * @param {string} [countryCode]
+   * @param {object} [query]
    * @return {Promise<Array<FlatPeak.Provider>>}
    */
-  getProviders(keywords, countryCode) {
-    const qs = objectToQueryString({
-      country_code: countryCode,
-      keywords: keywords,
-    });
-    return this.processRequest(this.performSignedRequest(`${this.host}/providers${qs ? '?' + qs : ''}`))
+  getProviders(query) {
+    return this.processRequest(this.performSignedRequest(
+        `${this.host}/providers?${(new URLSearchParams(query)).toString()}`,
+    ))
         .then((result) => result.data);
   }
 
@@ -276,7 +265,8 @@ export class FlatpeakService {
     const input = `${this.host}/products`;
     const init = {
       headers: {
-        'provider-id': providerId,
+        'Content-Type': 'application/json',
+        'Authorization': `Basic ${Buffer.from(providerId + ':').toString('base64')}`,
       },
       method: 'PATCH',
       body: JSON.stringify(
