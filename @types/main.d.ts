@@ -58,11 +58,10 @@ export class FlatpeakService {
      */
     getAccount(): Promise<FlatPeak.Account>;
     /**
-     * @param {string} [macAddress]
-     * @param {string} [customerId]
+     * @param {object} [query]
      * @return {Promise<{usable: boolean}>}
      */
-    checkMacAddress(macAddress?: string, customerId?: string): Promise<{
+    checkMacAddress(query?: object): Promise<{
         usable: boolean;
     }>;
     /**
@@ -76,11 +75,10 @@ export class FlatpeakService {
      */
     getTariff(tariffId: string): Promise<FlatPeak.Product>;
     /**
-     * @param {string} [keywords]
-     * @param {string} [countryCode]
+     * @param {object} [query]
      * @return {Promise<Array<FlatPeak.Provider>>}
      */
-    getProviders(keywords?: string, countryCode?: string): Promise<Array<FlatPeak.Provider>>;
+    getProviders(query?: object): Promise<Array<FlatPeak.Provider>>;
     /**
      * @param {string} providerId
      * @return {Promise<FlatPeak.Provider>}
