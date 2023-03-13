@@ -117,7 +117,7 @@ export class FlatpeakService {
   }
 
   /**
-   * @param {string} [query]
+   * @param {object} [query]
    * @return {Promise<{usable: boolean}>}
    */
   checkMacAddress(query) {
