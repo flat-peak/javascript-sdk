@@ -139,7 +139,8 @@ export class FlatpeakService {
      * Retrieve rates for a device
      * @param {string} deviceId
      * @param {number} ratesPeriod
+     * @param {string} [ratesType=tariff]
      * @return {Promise<any>}
      */
-    fetchRatesForDevice(deviceId: string, ratesPeriod: number): Promise<any>;
+    fetchRatesForDevice(deviceId: string, ratesPeriod: number, ratesType?: string): Promise<any>;
 }
