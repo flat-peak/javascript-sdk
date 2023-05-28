@@ -143,4 +143,36 @@ export class FlatpeakService {
      * @return {Promise<any>}
      */
     fetchRatesForDevice(deviceId: string, ratesPeriod: number, ratesType?: string): Promise<any>;
+    /**
+     * @param {string} payload.macAddress
+     * @param {string} payload.timezone
+     * @param {PostalAddress} payload.postalAddress
+     * @param {string} payload.productId
+     * @param {string} payload.customerId
+     * @param {string} payload.providerId
+     * @param {FlatPeak.Tariff} payload.tariffPlan
+     * @return {Promise<{tariff_id: string, device_id: string, product_id: string, customer_id: string}>}
+     */
+    saveManualTariff(payload: any): Promise<{
+        tariff_id: string;
+        device_id: string;
+        product_id: string;
+        customer_id: string;
+    }>;
+    /**
+     * @param {string} payload.macAddress
+     * @param {string} payload.timezone
+     * @param {PostalAddress} payload.postalAddress
+     * @param {string} payload.productId
+     * @param {string} payload.customerId
+     * @param {string} payload.providerId
+     * @param {FlatPeak.Tariff} payload.tariffPlan
+     * @return {Promise<{tariff_id, device_id: string, product_id: string, customer_id: string}>}
+     */
+    saveConnectedTariff(payload: any): Promise<{
+        tariff_id: any;
+        device_id: string;
+        product_id: string;
+        customer_id: string;
+    }>;
 }
