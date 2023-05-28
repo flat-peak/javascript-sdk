@@ -288,10 +288,11 @@ export class FlatpeakService {
    * Retrieve rates for a device
    * @param {string} deviceId
    * @param {number} ratesPeriod
+   * @param {string} [ratesType=tariff]
    * @return {Promise<any>}
    */
-  async fetchRatesForDevice(deviceId, ratesPeriod) {
-    const input = `${this.host}/rates/device/${deviceId}?rates_period=${ratesPeriod}`;
+  async fetchRatesForDevice(deviceId, ratesPeriod, ratesType = 'tariff') {
+    const input = `${this.host}/rates/device/${deviceId}?rates_period=${ratesPeriod}&rates_type=${ratesType}`;
     const init = {
       headers: {
         'Content-Type': 'application/json',
