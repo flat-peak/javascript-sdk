@@ -315,7 +315,7 @@ export class FlatpeakService {
    * @return {Promise<{tariff_id: string, device_id: string, product_id: string, customer_id: string}>}
    */
   async saveManualTariff(payload) {
-    const {
+    let {
       macAddress,
       timezone,
       postalAddress,
