@@ -2,18 +2,19 @@
   "name": "@flat-peak/javascript-sdk",
   "version": "1.1.1",
   "description": "This repository contains the open source FlatPeak JavaScript SDK.",
-  "main": "./lib/cjs/index.js",
-  "module": "./lib/cjs/index.js",
-  "browser": "./lib/es/index.js",
-  "types": "./@types/index.d.ts",
+  "main": "lib/cjs/index.js",
+  "module": "lib/cjs/index.js",
+  "browser": "lib/es/index.js",
+  "types": "types/index.d.ts",
+  "typings": "types/index.d.ts",
   "exports": {
     ".": {
       "import": {
-        "types": "./@types/index.d.ts",
+        "types": "./types/index.d.ts",
         "default": "./lib/es/index.js"
       },
       "require": {
-        "types": "./@types/index.d.ts",
+        "types": "./types/index.d.ts",
         "default": "./lib/cjs/index.js"
       }
     }
@@ -36,9 +37,9 @@
   },
   "homepage": "https://flatpeak.energy",
   "devDependencies": {
-    "rollup": "^3.7.4",
     "eslint": "^8.30.0",
-    "eslint-config-google": "^0.14.0"
+    "eslint-config-google": "^0.14.0",
+    "rollup": "^3.7.4"
   },
   "dependencies": {
     "node-fetch": "2.6.7"

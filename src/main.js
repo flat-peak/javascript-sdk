@@ -108,7 +108,7 @@ export class FlatpeakService {
   }
 
   /**
-   * @return {Promise<FlatPeak.Account>}
+   * @return {Promise<Account>}
    */
   async getAccount() {
     return this.processRequest(
@@ -133,7 +133,7 @@ export class FlatpeakService {
 
   /**
    * @param {string} productId
-   * @return {Promise<FlatPeak.Product>}
+   * @return {Promise<Product>}
    */
   getProduct(productId) {
     return this.processRequest(this.performSignedRequest(
@@ -143,7 +143,7 @@ export class FlatpeakService {
 
   /**
    * @param {string} tariffId
-   * @return {Promise<FlatPeak.Product>}
+   * @return {Promise<Product>}
    */
   getTariff(tariffId) {
     return this.processRequest(this.performSignedRequest(
@@ -153,7 +153,7 @@ export class FlatpeakService {
 
   /**
    * @param {object} [query]
-   * @return {Promise<Array<FlatPeak.Provider>>}
+   * @return {Promise<Array<Provider>>}
    */
   getProviders(query) {
     return this.processRequest(this.performSignedRequest(
@@ -164,7 +164,7 @@ export class FlatpeakService {
 
   /**
    * @param {string} providerId
-   * @return {Promise<FlatPeak.Provider>}
+   * @return {Promise<Provider>}
    */
   getProvider(providerId) {
     return this.processRequest(this.performSignedRequest(
@@ -174,8 +174,8 @@ export class FlatpeakService {
 
   /**
    * Create a tariff plan
-   * @param {FlatPeak.TariffCreate} data
-   * @return {Promise<FlatPeak.Tariff>}
+   * @param {TariffCreate} data
+   * @return {Promise<Tariff>}
    */
   createTariff(data) {
     return this.processRequest(this.performSignedRequest(`${this.host}/tariffs`, {
@@ -186,8 +186,8 @@ export class FlatpeakService {
 
   /**
    * Create a customer
-   * @param {FlatPeak.CustomerCreate} data
-   * @return {Promise<FlatPeak.Customer>}
+   * @param {CustomerCreate} data
+   * @return {Promise<Customer>}
    */
   createCustomer(data) {
     return this.processRequest(this.performSignedRequest(`${this.host}/customers`, {
@@ -199,8 +199,8 @@ export class FlatpeakService {
   /**
    * Update a customer
    * @param {string} id
-   * @param {FlatPeak.CustomerUpdate} data
-   * @return {Promise<FlatPeak.Customer>}
+   * @param {CustomerUpdate} data
+   * @return {Promise<Customer>}
    */
   updateCustomer(id, data) {
     return this.processRequest(this.performSignedRequest(`${this.host}/customers/${id}`, {
@@ -211,7 +211,7 @@ export class FlatpeakService {
 
   /**
    * @param {string} customerId
-   * @return {Promise<FlatPeak.Customer>}
+   * @return {Promise<Customer>}
    */
   getCustomer(customerId) {
     return this.processRequest(this.performSignedRequest(
@@ -221,8 +221,8 @@ export class FlatpeakService {
 
   /**
    * Create a product.
-   * @param {FlatPeak.ProductCreate} data
-   * @return {Promise<FlatPeak.Product>}
+   * @param {ProductCreate} data
+   * @return {Promise<Product>}
    */
   createProduct(data) {
     return this.processRequest(this.performSignedRequest(`${this.host}/products`, {
@@ -234,8 +234,8 @@ export class FlatpeakService {
   /**
    * Update a product.
    * @param {string} id
-   * @param {FlatPeak.ProductUpdate} data
-   * @return {Promise<FlatPeak.Product>}
+   * @param {ProductUpdate} data
+   * @return {Promise<Product>}
    */
   updateProduct(id, data) {
     return this.processRequest(this.performSignedRequest(`${this.host}/products/${id}`, {
@@ -246,8 +246,8 @@ export class FlatpeakService {
 
   /**
    * Create a device.
-   * @param {FlatPeak.DeviceCreate} data
-   * @return {Promise<FlatPeak.Device>}
+   * @param {DeviceCreate} data
+   * @return {Promise<Device>}
    */
   createDevice(data) {
     return this.processRequest(this.performSignedRequest(`${this.host}/devices`, {
@@ -305,14 +305,8 @@ export class FlatpeakService {
   }
 
   /**
-   * @param {string} payload.macAddress
-   * @param {string} payload.timezone
-   * @param {PostalAddress} payload.postalAddress
-   * @param {string} payload.productId
-   * @param {string} payload.customerId
-   * @param {string} payload.providerId
-   * @param {Tariff} payload.tariffPlan
-   * @return {Promise<{tariff_id: string, device_id: string, product_id: string, customer_id: string}>}
+   * @param {SaveTariffPayload} payload
+   * @return {Promise<SaveTariffResponse>}
    */
   async saveManualTariff(payload) {
     let {
@@ -450,20 +444,12 @@ export class FlatpeakService {
   };
 
   /**
-   * @param {string} payload.macAddress
-   * @param {string} payload.timezone
-   * @param {PostalAddress} payload.postalAddress
-   * @param {string} payload.productId
-   * @param {string} payload.customerId
-   * @param {string} payload.providerId
-   * @param {Tariff} payload.tariffPlan
-   * @return {Promise<{tariff_id, device_id: string, product_id: string, customer_id: string}>}
+   * @param {SaveTariffPayload} payload
+   * @return {Promise<SaveTariffResponse>}
    */
   async saveConnectedTariff(payload) {
     const {
       macAddress,
-      timezone,
-      postalAddress,
       productId,
       customerId,
       tariffPlan,
@@ -487,7 +473,7 @@ export class FlatpeakService {
     const product = throwOnApiError(await this.getProduct(productId));
 
     /** @type {Customer} */
-    const customer = throwOnApiError(await this.getCustomer(productId));
+    const customer = throwOnApiError(await this.getCustomer(customerId));
 
     const isNewDevice = !device_id || !product.devices.includes(device_id);
 

@@ -1,7 +1,4 @@
-/**
- * FlatPeak API namespace
- */
-export namespace FlatPeak {
+
     /**
      * Account.
      */
@@ -183,7 +180,7 @@ export namespace FlatPeak {
     }
 
     /**
-     * This object includes information about acceptance of terms and conditions of FlatPeak.
+     * This object includes information about acceptance of terms and conditions of
      */
     export interface Terms {
         /**
@@ -996,11 +993,11 @@ export namespace FlatPeak {
         /**
          * An array of tariff objects, grouped by time of tariff change
          */
-        export?: Export[];
+        export?: TariffExportRate[];
         /**
          * An array of tariff objects, grouped by time of tariff change
          */
-        import?: Import[];
+        import?: TariffImportRate[];
         /**
          * Time when rates were last updated.
          */
@@ -1015,11 +1012,11 @@ export namespace FlatPeak {
         product_id?: string;
     }
 
-    export interface Export {
+    export interface TariffExportRate {
         /**
          * The rates (i.e. tariff, energy price) object
          */
-        tariff?: ExportTariff;
+        tariff?: TariffExportRateData;
         /**
          * Time from when information is valid, in UTC timezone
          */
@@ -1033,7 +1030,7 @@ export namespace FlatPeak {
     /**
      * The rates (i.e. tariff, energy price) object
      */
-    export interface ExportTariff {
+    export interface TariffExportRateData {
         /**
          * Estimated confidence of data where '1' is 100% accurate and 0.1 is 10% accurate.
          */
@@ -1044,7 +1041,7 @@ export namespace FlatPeak {
         cost?: number;
     }
 
-    export interface Import {
+    export interface TariffImportRate {
         /**
          * Carbon intensity index
          */
@@ -1056,7 +1053,7 @@ export namespace FlatPeak {
         /**
          * The tariff rates object
          */
-        tariff?: ImportTariff;
+        tariff?: TariffImportRateData;
         /**
          * Time from when information is valid, in UTC timezone
          */
@@ -1102,7 +1099,7 @@ export namespace FlatPeak {
     /**
      * The tariff rates object
      */
-    export interface ImportTariff {
+    export interface TariffImportRateData {
         /**
          * Estimated confidence of data where '1' is 100% accurate and 0.1 is 10% accurate.
          */
@@ -1124,7 +1121,7 @@ export namespace FlatPeak {
         /**
          * Export object, i.e. electricity provided by the supply point to the grid.
          */
-        export: TariffWeekday[];
+        export: TariffSchedule[];
         /**
          * Unique Tariff Plan Id.
          */
@@ -1132,7 +1129,7 @@ export namespace FlatPeak {
         /**
          * Import object, i.e. electricity provided by the grid to the supply point.
          */
-        import: TariffWeekday[];
+        import: TariffSchedule[];
         /**
          * The Object name, i.e. tariff.
          */
@@ -1159,21 +1156,21 @@ export namespace FlatPeak {
      * This object represents a `weekday` tariff model. I.e. a tariff that varies by season &
      * day of the week.
      */
-    export interface TariffWeekday {
-        data?: Datum[];
+    export interface TariffSchedule {
+        data?: TariffScheduleDatum[];
         /**
          * Tariff type. i.e. `weekday`.
          */
         type?: string;
     }
 
-    export interface Datum {
+    export interface TariffScheduleDatum {
         /**
          * An array of days of the month tariff applies, possible values: 1...31 (for all days of of
          * the month). For all days omit the entire parameter.
          */
         dates?:          number[];
-        days_and_hours?: DaysAndHour[];
+        days_and_hours?: TariffDaysAndHours[];
         /**
          * An array of months when tariff applies, possible values: Jan-Dec, All (for all months of
          * the year).
@@ -1181,7 +1178,7 @@ export namespace FlatPeak {
         months?: string[];
     }
 
-    export interface DaysAndHour {
+    export interface TariffDaysAndHours {
         /**
          * An array of days of the week when tariff applies, possible values: Mon-Sun,
          * Weekday-Weekend (the first day of the week will be determined from country code), All
@@ -1191,10 +1188,10 @@ export namespace FlatPeak {
         /**
          * A time period in hours, minutes and seconds.
          */
-        hours?: Hour[];
+        hours?: TariffHour[];
     }
 
-    export interface Hour {
+    export interface TariffHour {
         /**
          * Cost (price) of electricity in small currency units.
          */
@@ -1216,11 +1213,11 @@ export namespace FlatPeak {
         /**
          * Export object, i.e. electricity provided by the supply point to the grid
          */
-        export?: TariffWeekday[];
+        export?: TariffSchedule[];
         /**
          * Import object, i.e. electricity provided by the grid to the supply point
          */
-        import?: TariffWeekday[];
+        import?: TariffSchedule[];
         /**
          * Id of the Product object which Tariff Plan relates to
          */
@@ -1483,4 +1480,3 @@ export namespace FlatPeak {
          */
         secret?: string;
     }
-}
