@@ -1,3 +1,8 @@
+/**
+ * @template T
+ * @param {T} input
+ * @return {T}
+ */
 export const throwOnApiError = (input) => {
   if (input?.object === 'error') {
     throw new Error(input.message);
