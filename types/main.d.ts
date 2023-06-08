@@ -1,4 +1,15 @@
-import {FlatPeak} from "./api";
+import {SaveTariffPayload, SaveTariffResponse} from "./types";
+import {
+    Account,
+    Customer,
+    CustomerCreate,
+    CustomerUpdate, Device,
+    DeviceCreate,
+    Product, ProductCreate,
+    ProductUpdate, Provider,
+    Tariff,
+    TariffCreate
+} from "./api";
 
 export class FlatpeakService {
     /**
@@ -54,9 +65,9 @@ export class FlatpeakService {
      */
     processRequest(request: Promise<Response>): Promise<any>;
     /**
-     * @return {Promise<FlatPeak.Account>}
+     * @return {Promise<Account>}
      */
-    getAccount(): Promise<FlatPeak.Account>;
+    getAccount(): Promise<Account>;
     /**
      * @param {object} [query]
      * @return {Promise<{usable: boolean}>}
@@ -66,67 +77,67 @@ export class FlatpeakService {
     }>;
     /**
      * @param {string} productId
-     * @return {Promise<FlatPeak.Product>}
+     * @return {Promise<Product>}
      */
-    getProduct(productId: string): Promise<FlatPeak.Product>;
+    getProduct(productId: string): Promise<Product>;
     /**
      * @param {string} tariffId
-     * @return {Promise<FlatPeak.Product>}
+     * @return {Promise<Product>}
      */
-    getTariff(tariffId: string): Promise<FlatPeak.Product>;
+    getTariff(tariffId: string): Promise<Product>;
     /**
      * @param {object} [query]
-     * @return {Promise<Array<FlatPeak.Provider>>}
+     * @return {Promise<Array<Provider>>}
      */
-    getProviders(query?: object): Promise<Array<FlatPeak.Provider>>;
+    getProviders(query?: object): Promise<Array<Provider>>;
     /**
      * @param {string} providerId
-     * @return {Promise<FlatPeak.Provider>}
+     * @return {Promise<Provider>}
      */
-    getProvider(providerId: string): Promise<FlatPeak.Provider>;
+    getProvider(providerId: string): Promise<Provider>;
     /**
      * Create a tariff plan
-     * @param {FlatPeak.TariffCreate} data
-     * @return {Promise<FlatPeak.Tariff>}
+     * @param {TariffCreate} data
+     * @return {Promise<Tariff>}
      */
-    createTariff(data: FlatPeak.TariffCreate): Promise<FlatPeak.Tariff>;
+    createTariff(data: TariffCreate): Promise<Tariff>;
     /**
      * Create a customer
-     * @param {FlatPeak.CustomerCreate} data
-     * @return {Promise<FlatPeak.Customer>}
+     * @param {CustomerCreate} data
+     * @return {Promise<Customer>}
      */
-    createCustomer(data: FlatPeak.CustomerCreate): Promise<FlatPeak.Customer>;
+    createCustomer(data: CustomerCreate): Promise<Customer>;
     /**
      * Update a customer
      * @param {string} id
-     * @param {FlatPeak.CustomerUpdate} data
-     * @return {Promise<FlatPeak.Customer>}
+     * @param {CustomerUpdate} data
+     * @return {Promise<Customer>}
      */
-    updateCustomer(id: string, data: FlatPeak.CustomerUpdate): Promise<FlatPeak.Customer>;
+    updateCustomer(id: string, data: CustomerUpdate): Promise<Customer>;
     /**
      * @param {string} customerId
-     * @return {Promise<FlatPeak.Customer>}
+     * @return {Promise<Customer>}
      */
-    getCustomer(customerId: string): Promise<FlatPeak.Customer>;
+    getCustomer(customerId: string): Promise<Customer>;
     /**
      * Create a product.
-     * @param {FlatPeak.ProductCreate} data
-     * @return {Promise<FlatPeak.Product>}
+     * @param {ProductCreate} data
+     * @return {Promise<Product>}
      */
-    createProduct(data: FlatPeak.ProductCreate): Promise<FlatPeak.Product>;
+    createProduct(data: ProductCreate): Promise<Product>;
     /**
      * Update a product.
      * @param {string} id
-     * @param {FlatPeak.ProductUpdate} data
-     * @return {Promise<FlatPeak.Product>}
+     * @param {ProductUpdate} data
+     * @return {Promise<Product>}
      */
-    updateProduct(id: string, data: FlatPeak.ProductUpdate): Promise<FlatPeak.Product>;
+    updateProduct(id: string, data: ProductUpdate): Promise<Product>;
     /**
      * Create a device.
-     * @param {FlatPeak.DeviceCreate} data
-     * @return {Promise<FlatPeak.Device>}
+     * @param {DeviceCreate} data
+     * @return {Promise<Device>}
      */
-    createDevice(data: FlatPeak.DeviceCreate): Promise<FlatPeak.Device>;
+    createDevice(data: DeviceCreate): Promise<Device>;
     /**
      * Initiate product update pull
      * @param {string} providerId
@@ -143,4 +154,14 @@ export class FlatpeakService {
      * @return {Promise<any>}
      */
     fetchRatesForDevice(deviceId: string, ratesPeriod: number, ratesType?: string): Promise<any>;
+    /**
+     * @param {SaveTariffPayload} payload
+     * @return {Promise<SaveTariffResponse>}
+     */
+    saveManualTariff(payload: SaveTariffPayload): Promise<SaveTariffResponse>;
+    /**
+     * @param {SaveTariffPayload} payload
+     * @return {Promise<SaveTariffResponse>}
+     */
+    saveConnectedTariff(payload: SaveTariffPayload): Promise<SaveTariffResponse>;
 }
