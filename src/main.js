@@ -346,7 +346,9 @@ export class FlatpeakService {
     } else {
       // create customer & insert _id into session
       /** @type {Customer} */
-      customer = throwOnApiError(await this.createCustomer({}));
+      customer = throwOnApiError(await this.createCustomer({
+        is_disabled: false
+      }));
       customerId = customer.id;
     }
 
@@ -359,6 +361,7 @@ export class FlatpeakService {
       provider_id: providerId,
       timezone: timezone,
       postal_address: postalAddress,
+      is_disabled: false
     };
 
     if (hasProductId) {
@@ -474,6 +477,17 @@ export class FlatpeakService {
 
     /** @type {Customer} */
     const customer = throwOnApiError(await this.getCustomer(customerId));
+
+    (await Promise.all(
+      [
+        customer.is_disabled
+          ? this.updateCustomer(customerId, {is_disabled: false})
+          : Promise.resolve({}),
+        product.is_disabled
+          ? this.updateProduct(productId, {is_disabled: false})
+          : Promise.resolve({})
+      ]
+    )).map((result) => throwOnApiError(result));
 
     const isNewDevice = !device_id || !product.devices.includes(device_id);
 
