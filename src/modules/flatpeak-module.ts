@@ -6,13 +6,9 @@ import fetch, {
 export class FlatpeakModule {
   protected moduleId: string = "";
 
-  private _publishableKey: string;
+  protected verbose: boolean;
 
-  private _host: string;
-
-  private _verbose: boolean;
-
-  private logFn: (message: string) => void;
+  protected logFn: (message: string) => void;
 
   /**
    * @param {string} host
@@ -20,39 +16,29 @@ export class FlatpeakModule {
    * @param {boolean|Function} logger
    */
   constructor(
-    host: string,
-    publishableKey: string,
+    protected host: string,
+    protected publishableKey: string,
     logger: boolean | ((message: string) => void) = false,
   ) {
-    this._publishableKey = publishableKey;
-    this._host = host;
-    this._verbose = Boolean(logger);
+    this.verbose = Boolean(logger);
     // eslint-disable-next-line no-console
     this.logFn = typeof logger === "function" ? logger : console.log;
   }
 
-  /**
-   * @private
-   * @return {string}
-   */
-  get publishableKey(): string {
-    return this._publishableKey;
+  getHost(): string {
+    return this.host;
   }
 
-  /**
-   * @private
-   * @return {string}
-   */
-  get host(): string {
-    return this._host;
+  setHost(value: string) {
+    this.host = value;
   }
 
-  /**
-   * @private
-   * @return {string}
-   */
-  get verbose(): boolean {
-    return this._verbose;
+  getPublishableKey(): string {
+    return this.publishableKey;
+  }
+
+  setPublishableKey(value: string) {
+    this.publishableKey = value;
   }
 
   /**

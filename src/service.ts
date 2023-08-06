@@ -48,9 +48,9 @@ export class FlatpeakService {
    * @param {boolean|Function} [logger = false]
    */
   constructor(
-    host: string,
-    publishableKey: string,
-    logger: boolean | ((message: string) => void) = false,
+    private host: string,
+    private publishableKey: string,
+    private logger: boolean | ((message: string) => void) = false,
   ) {
     this.modules = [];
     this.products = new ProductsModule(host, publishableKey, logger);
@@ -70,6 +70,24 @@ export class FlatpeakService {
       this.providers,
       this.customers,
     );
+  }
+
+  getHost(): string {
+    return this.host;
+  }
+
+  setHost(value: string) {
+    this.host = value;
+    this.modules.forEach((module) => module.setHost(value));
+  }
+
+  getPublishableKey(): string {
+    return this.publishableKey;
+  }
+
+  setPublishableKey(value: string) {
+    this.publishableKey = value;
+    this.modules.forEach((module) => module.setPublishableKey(value));
   }
 
   /**
