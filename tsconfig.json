@@ -9,7 +9,7 @@
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "declaration": true,
+    "declaration": false,
     "moduleResolution": "node",
     "baseUrl": "./"
   },
