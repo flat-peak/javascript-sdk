@@ -1,3 +1,8 @@
+import fetch, {
+  RequestInfo as NodeRequestInfo,
+  RequestInit as NodeRequestInit,
+} from "node-fetch";
+
 export class FlatpeakModule {
   protected moduleId: string = "";
 
@@ -92,7 +97,10 @@ export class FlatpeakModule {
         `${this.moduleId} | Request: ${JSON.stringify({ input, init })}`,
       );
     }
-    return fetch(input, init);
+    return fetch(
+      input as NodeRequestInfo,
+      init as NodeRequestInit,
+    ) as unknown as Promise<Response>;
   }
 
   /**
@@ -106,7 +114,10 @@ export class FlatpeakModule {
         `${this.moduleId} | Request: ${JSON.stringify({ input, init })}`,
       );
     }
-    return fetch(input, init);
+    return fetch(
+      input as NodeRequestInfo,
+      init as NodeRequestInit,
+    ) as unknown as Promise<Response>;
   }
 
   /**
