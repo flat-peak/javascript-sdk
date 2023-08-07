@@ -420,7 +420,7 @@ export class FlatpeakService {
       await this.products.retrieve(productId),
     ) as Product;
     const customer = throwOnApiError(
-      await this.products.retrieve(customerId),
+      await this.customers.retrieve(customerId),
     ) as Customer;
 
     (
