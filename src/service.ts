@@ -407,15 +407,6 @@ export class FlatpeakService {
       throw new Error("Required object is missing");
     }
 
-    // can this mac be used?
-    const { device_id } = throwOnApiError(
-      await this.devices.checkDeviceMac({
-        mac: macAddress,
-        ...(customerId && { customer_id: customerId }),
-      }),
-    );
-
-    let device: Device;
     const product = throwOnApiError(
       await this.products.retrieve(productId),
     ) as Product;
@@ -434,24 +425,35 @@ export class FlatpeakService {
       ])
     ).map((result) => throwOnApiError(result));
 
-    const isNewDevice = !device_id || !product.devices?.includes(device_id);
+    let device: Device | undefined = undefined;
+    if (macAddress) {
+      // can this mac be used?
+      const { device_id } = throwOnApiError(
+          await this.devices.checkDeviceMac({
+            mac: macAddress,
+            ...(customerId && { customer_id: customerId }),
+          }),
+      );
 
-    if (isNewDevice) {
-      device = throwOnApiError(
-        await this.devices.create({
-          mac: macAddress,
-          products: [product.id],
-          customer_id: customer.id,
-        } as DeviceCreate),
-      ) as Device;
-    } else {
-      device = throwOnApiError(
-        await this.devices.retrieve(device_id),
-      ) as Device;
+      const isNewDevice = !device_id || !product.devices?.includes(device_id);
+
+      if (isNewDevice) {
+        device = throwOnApiError(
+          await this.devices.create({
+            mac: macAddress,
+            products: [product.id],
+            customer_id: customer.id,
+          } as DeviceCreate),
+        ) as Device;
+      } else {
+        device = throwOnApiError(
+          await this.devices.retrieve(device_id),
+        ) as Device;
+      }
     }
 
     return {
-      device_id: device.id,
+      device_id: device ? device.id : undefined,
       customer_id: customer.id,
       product_id: product.id,
       tariff_id: tariffPlan.id,

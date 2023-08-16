@@ -4,7 +4,7 @@
     "allowJs": true,
     "outDir": "lib",
     "declarationMap": false,
-    "target": "ES2015",
+    "target": "ES2016",
     "module": "ES2020",
     "strict": true,
     "esModuleInterop": true,
