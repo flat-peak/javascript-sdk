@@ -1,11 +1,11 @@
 import { FlatpeakModule } from "./flatpeak-module";
 import {
-  FailureResponse,
-  ListResponse,
   Consumption,
   Device,
   DeviceCreate,
   DeviceUpdate,
+  FailureResponse,
+  ListResponse,
 } from "../types";
 
 export class DevicesModule extends FlatpeakModule {
@@ -19,7 +19,7 @@ export class DevicesModule extends FlatpeakModule {
    * @param {string} [query.reference_id] - Object identifier from third-party system
    * @param {string} [query.mac] - Dash-separated MAC address
    * @param {string} [query.ending_before] - Specifies a cursor for pagination use; provider_id defines the place in the list. To retrieve previous page in the list include ending_before where is the first id in the currently retrieved list.
-   * @param {string} [query.limit] - A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 30.
+   * @param {number} [query.limit] - A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 30.
    * @param {string} [query.starting_after] - Specifies a cursor for pagination use; provider_id defines the place in the list. To retrieve next page in the list include starting_after where id is the last id in the currently retrieved list.
    * @param {boolean} [query.is_disabled] - Set to 'true' to include disabled objects
    *
@@ -63,7 +63,7 @@ export class DevicesModule extends FlatpeakModule {
     reference_id?: string;
     mac?: string;
     ending_before?: string;
-    limit?: string;
+    limit?: number;
     starting_after?: string;
     is_disabled?: boolean;
   }): Promise<ListResponse<Device> | FailureResponse> {
@@ -143,7 +143,7 @@ export class DevicesModule extends FlatpeakModule {
    *
    * If you provide a MAC address that you know is not yet registered with any of the Customers in your Account but still get an error, then it must be registered with another FlatPeak Account. If this happens, note the device MAC, raise an error to the user and contact FlatPeak support.
    *
-   * For more information on how to work with Devices, review this guide: https://docs.flatpeak.energy/docs/objects-device
+   * For more information on how to work with Devices, review this guide: https://docs.flatpeak.energy/docs/working-with-devices
    *
    * @param {Object} query
    * @param {string} query.mac - Dash-separated MAC address
@@ -311,7 +311,7 @@ export class DevicesModule extends FlatpeakModule {
    *         "live_mode": true,
    *         "customer_id": "cus_597d622c073e489487071035c35eb50c",
    *         "provider_id": "prv_5cb31f2f90eb48ec95d413bea1f0f606",
-   *         "timezone": "Europe/Tallinn",
+   *         "timezone": "Europe/Berlin",
    *         "postal_address": {
    *           "address_line1": "221b Baker St",
    *           "address_line2": "",

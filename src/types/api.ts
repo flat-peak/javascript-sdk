@@ -712,7 +712,7 @@ export interface ProductCreate {
   provider_id: string;
   tariff_settings?: TariffSettings;
   /**
-   * The timezone of the tariff data in 'tz database format'. I.e. 'Europe/Berlin'.
+   * The timezone of the product in 'tz database format'. I.e. 'Europe/Berlin'.
    * https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
    */
   timezone?: string;
@@ -1123,6 +1123,10 @@ export interface Tariff {
    */
   import: TariffWeekday[];
   /**
+   * Set to `true` when tariff is created by Connected integration type.
+   */
+  integrated?: boolean;
+  /**
    * The Object name, i.e. tariff.
    */
   object: string;
@@ -1215,6 +1219,10 @@ export interface TariffCreate {
    * Import object, i.e. electricity provided by the grid to the supply point
    */
   import?: TariffWeekday[];
+  /**
+   * Set to `true` when tariff is created by Connected integration type
+   */
+  integrated?: boolean;
   /**
    * Id of the Product object which Tariff Plan relates to
    */
