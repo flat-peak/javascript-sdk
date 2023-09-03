@@ -1,24 +1,24 @@
 import { FlatpeakModule } from "./flatpeak-module";
-import { Rate, FailureResponse } from "../types";
+import { FailureResponse, Rate } from "../types";
 
 export class RatesModule extends FlatpeakModule {
   protected moduleId: string = "rates";
 
   /**
-   * Get rates for a device.
+   * Get rates (i.e. cost of energy) for a Device.
    *
-   * Specifying no `rates_type` parameter will return a tariff. You can add `carbon` and/or `grid` to request carbon and grid datasets respectively. If no carbon and/or grid data is available, then carbon and/or grid objects will not be included in the response.
+   * Specifying no `rates_type` parameter will return a tariff. You can add `carbon` and `grid` to request carbon and grid datasets respectively. If no carbon and/or grid data is available, then they will not be included in the response.
    *
-   * Note: calls are dynamically rate-limited per device. An error 429 (too many requests) is returned on rate-limiting events. Contact support for more information.
+   * Learn more here: https://docs.flatpeak.energy/docs/rates-api
    *
    * @param {string} id - FlatPeak unique device id
    *
    * @param {Object} query
    * @param {number} [query.rates_period] - Time in minutes for when rate and other tariff info is required. Can be positive (i.e. time forward) or negative (i.e. historic data). Cannot be used with `rates_from` and `rates_to`
-   * @param {string} [query.product_id] - Optional FlatPeak product id
-   * @param {string} [query.rates_type] - Either carbon, grid or tariff. Multiple values are supported e.g. carbon,tariff
+   * @param {string} [query.rates_type] - Possible values are `carbon`, `grid`, `tariff`. Multiple values are supported e.g. `tariff,carbon`
    * @param {string} [query.rates_from] - From parameter for requesting rates in RFC3339 format e.g. 2023-06-15T09:00:00Z. Cannot be used with `rates_period`
    * @param {string} [query.rates_to] - To parameter for requesting rates in RFC3339 format e.g. 2023-06-15T09:00:00Z. Cannot be used with `rates_period`
+   * @param {string} [query.product_id] - Optional FlatPeak `product_id` to limit response to a specific Product, when the device is related to multiple Products. Refer to https://docs.flatpeak.energy/docs/working-with-devices to learn how Products and Devices may be related.
    *
    * @return {Promise<Rate | FailureResponse>}
    *
@@ -159,10 +159,10 @@ export class RatesModule extends FlatpeakModule {
     id: string,
     query: {
       rates_period?: number;
-      product_id?: string;
       rates_type?: string;
       rates_from?: string;
       rates_to?: string;
+      product_id?: string;
     },
   ): Promise<Rate | FailureResponse> {
     return this.processRequest(
@@ -182,15 +182,17 @@ export class RatesModule extends FlatpeakModule {
   }
 
   /**
-   * Get rates for a product.
+   * Get rates (i.e. cost of energy) for a Product.
    *
-   * Specifying no `rates_type` parameter will return a tariff. You can add `carbon` and/or `grid` to request carbon and grid datasets respectively. If no carbon and/or grid data is available, then carbon and/or grid objects will not be included in the response.
+   * Specifying no `rates_type` parameter will return a tariff. You can add `carbon` and `grid` to request carbon and grid datasets respectively. If no carbon and/or grid data is available, then they will not be included in the response.
+   *
+   * Learn more here: https://docs.flatpeak.energy/docs/rates-api
    *
    * @param {string} id - FlatPeak unique product id
    *
    * @param {Object} query
    * @param {number} [query.rates_period] - Time in minutes for when rate and other tariff info is required. Can be positive (i.e. time forward) or negative (i.e. historic data). Cannot be used with `rates_from` and `rates_to`
-   * @param {string} [query.rates_type] - Either carbon, grid or tariff. Multiple values are supported e.g. carbon,tariff
+   * @param {string} [query.rates_type] - Possible values are `carbon`, `grid`, `tariff`. Multiple values are supported e.g. `tariff,carbon`
    * @param {string} [query.rates_from] - From parameter for requesting rates in RFC3339 format e.g. 2023-06-15T09:00:00Z. Cannot be used with `rates_period`
    * @param {string} [query.rates_to] - To parameter for requesting rates in RFC3339 format e.g. 2023-06-15T09:00:00Z. Cannot be used with `rates_period`
    *

@@ -1,19 +1,19 @@
 import { FlatpeakModule } from "./flatpeak-module";
 import {
   Consumption,
+  FailureResponse,
+  ListResponse,
   Product,
   ProductCreate,
   ProductPull,
   ProductUpdate,
-  FailureResponse,
-  ListResponse,
 } from "../types";
 
 export class ProductsModule extends FlatpeakModule {
   protected moduleId: string = "products";
 
   /**
-   * Returns a list of all energy products.
+   * Returns a list of all Products.
    *
    * Products hold energy provider tariff objects in their native and FlatPeak format. They may be created when accessing customer's energy provider account or can store tariff configuration created by customers manually via tariff rates configuration interface.
    *
@@ -22,7 +22,7 @@ export class ProductsModule extends FlatpeakModule {
    * @param {string} [query.reference_id] - Object identifier from third-party system
    * @param {string} [query.customer_id] - FlatPeak unique customer_id
    * @param {string} [query.starting_after] - Specifies a cursor for pagination use; provider_id defines the place in the list. To retrieve next page in the list include starting_after where id is the last id in the currently retrieved list.
-   * @param {string} [query.limit] - A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 30.
+   * @param {number} [query.limit] - A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 30.
    * @param {string} [query.ending_before] - Specifies a cursor for pagination use; provider_id defines the place in the list. To retrieve previous page in the list include ending_before where is the first id in the currently retrieved list.
    * @param {boolean} [query.is_disabled] - Set to 'true' to include disabled objects
    * @param {string} [query.failed_attempts] - Over how many times fetching the tariff has failed
@@ -45,7 +45,7 @@ export class ProductsModule extends FlatpeakModule {
    *           "is_disabled": false,
    *           "customer_id": "cus_597d622c073e489487071035c35eb50c",
    *           "provider_id": "prv_5cb31f2f90eb48ec95d413bea1f0f606",
-   *           "agreement_id": "agr_ccf257e587b84bc186f550670b3b2b15",
+   *           "timezone": "Europe/Berlin",
    *           "postal_address": {
    *             "address_line1": "221b Baker St",
    *             "address_line2": "",
@@ -63,7 +63,7 @@ export class ProductsModule extends FlatpeakModule {
    *             "integrated": true,
    *             "reference_id": "A1234567890",
    *             "tariff_id": "trf_32acd4e16e914646ae94bd872aa8d9d3",
-   *             "auth_metadata_id": "aum_64a9526c6809132802a1dd15",
+   *             "auth_metadata_id": "aum_64a9526c6809132802a1ad15",
    *             "last_update_time": 1654603424,
    *             "next_update_time": 1654693424,
    *             "failed_attempts": 0
@@ -85,7 +85,7 @@ export class ProductsModule extends FlatpeakModule {
     reference_id?: string;
     customer_id?: string;
     starting_after?: string;
-    limit?: string;
+    limit?: number;
     ending_before?: string;
     is_disabled?: boolean;
     failed_attempts?: string;
@@ -105,7 +105,9 @@ export class ProductsModule extends FlatpeakModule {
   /**
    * Create a product.
    *
-   * Products hold energy provider tariff objects in their native and FlatPeak format. They may be created when accessing customer's energy provider account or can store tariff configuration by created by customers manually via tariff rates configuration interface.
+   * Product is a FlatPeak identifier of supply address is where energy is being consumed (or exported) under the contract between the provider (supplier) and customer (consumer of energy). They link to Customer and hold references to Tariff and Devices.
+   *
+   * Note: `auth_metadata` property will not be returned back in the Response. This is to protect its potentially sensitive content. Instead `auth_metadata_id` will be returned. If you need to access `auth_metadata` for debugging, contact support.
    *
    * @param {ProductCreate} body - Creates a Product
    *
@@ -125,6 +127,7 @@ export class ProductsModule extends FlatpeakModule {
    *       "is_disabled": false,
    *       "customer_id": "cus_597d622c073e489487071035c35eb50c",
    *       "provider_id": "prv_5cb31f2f90eb48ec95d413bea1f0f606",
+   *       "timezone": "Europe/Berlin",
    *       "postal_address": {
    *         "address_line1": "221b Baker St",
    *         "address_line2": "",
@@ -138,6 +141,7 @@ export class ProductsModule extends FlatpeakModule {
    *         167.1522246611749
    *       ],
    *       "tariff_settings": {
+   *         "auth_metadata_id": "aum_6499d99e0c63830a644d08eb",
    *         "is_disabled": false,
    *         "integrated": true,
    *         "reference_id": "A1234567890",
@@ -145,13 +149,7 @@ export class ProductsModule extends FlatpeakModule {
    *         "last_update_time": 1654603424,
    *         "next_update_time": 1654693424,
    *         "failed_attempts": 0,
-   *         "auth_metadata": {
-   *           "reference_id": "trb_9dcd3359-73fd-41f2-9b13-04ca9b2fb877",
-   *           "data": {
-   *             "login": "demo@example.com",
-   *             "password": "demo"
-   *           }
-   *         }
+   *         "auth_metadata": {}
    *       },
    *       "devices": [
    *         "dev_021ff68976894b73b62ec1d71cd6bb7b",
@@ -181,12 +179,11 @@ export class ProductsModule extends FlatpeakModule {
   }
 
   /**
-   * Initiate pulling of updates for products. Specify either `reference_ids` OR `product_ids` but **not both**. Throttling and other limits apply. Please contact support for more information.
+   * Initiate fetching tariff update for products. This will get FlatPeak backend systems to download tariff updates from snsergy supplier accounts. Specify either `reference_ids` OR `product_ids` but **not both**.
    *
-   * @param {string} providerId
    * @param {ProductPull} body - Initiate pulling updates for a product via the Integration
    *
-   * @return {Promise<{action: string, product_ids: array, reference_ids: array}>}
+   * @return {Promise<{action: string, product_ids: Array<string>, reference_ids: Array<string>}>}
    *
    * @example
    *     const output = await flatpeak.products.pullProducts(body);
@@ -230,8 +227,6 @@ export class ProductsModule extends FlatpeakModule {
   /**
    * Retrieve a product
    *
-   * Products hold energy provider tariff objects in their native and FlatPeak format. They may be created when accessing customer's energy provider account or can store tariff configuration by created by customers manually via tariff rates configuration interface.
-   *
    * @param {string} id - unique FlatPeak product identifier
    *
    * @return {Promise<Product | FailureResponse>}
@@ -247,6 +242,7 @@ export class ProductsModule extends FlatpeakModule {
    *       "is_disabled": false,
    *       "customer_id": "cus_597d622c073e489487071035c35eb50c",
    *       "provider_id": "prv_5cb31f2f90eb48ec95d413bea1f0f606",
+   *       "timezone": "Europe/Berlin",
    *       "postal_address": {
    *         "address_line1": "221b Baker St",
    *         "address_line2": "",
@@ -260,6 +256,7 @@ export class ProductsModule extends FlatpeakModule {
    *         167.1522246611749
    *       ],
    *       "tariff_settings": {
+   *         "auth_metadata_id": "aum_6499d99e0c63830a644d08eb",
    *         "is_disabled": false,
    *         "integrated": true,
    *         "reference_id": "A1234567890",
@@ -267,13 +264,7 @@ export class ProductsModule extends FlatpeakModule {
    *         "last_update_time": 1654603424,
    *         "next_update_time": 1654693424,
    *         "failed_attempts": 0,
-   *         "auth_metadata": {
-   *           "reference_id": "trb_9dcd3359-73fd-41f2-9b13-04ca9b2fb877",
-   *           "data": {
-   *             "login": "demo@example.com",
-   *             "password": "demo"
-   *           }
-   *         }
+   *         "auth_metadata": {}
    *       },
    *       "devices": [
    *         "dev_021ff68976894b73b62ec1d71cd6bb7b",
@@ -316,7 +307,7 @@ export class ProductsModule extends FlatpeakModule {
   /**
    * Update a product.
    *
-   * Products hold energy provider tariff objects in their native and FlatPeak format. They may be created when accessing customer's energy provider account or can store tariff configuration by created by customers manually via tariff rates configuration interface.
+   * Note: `auth_metadata` property will not be returned back in the Response. This is to protect its potentially sensetive content. Instead the `auth_metadata_id` will be returned. If you need to access `auth_metadata` for debugging, contact support.
    *
    * @param {string} id - unique FlatPeak product identifier
    *
@@ -335,6 +326,7 @@ export class ProductsModule extends FlatpeakModule {
    *       "is_disabled": false,
    *       "customer_id": "cus_597d622c073e489487071035c35eb50c",
    *       "provider_id": "prv_5cb31f2f90eb48ec95d413bea1f0f606",
+   *       "timezone": "Europe/Berlin",
    *       "postal_address": {
    *         "address_line1": "221b Baker St",
    *         "address_line2": "",
@@ -348,6 +340,7 @@ export class ProductsModule extends FlatpeakModule {
    *         167.1522246611749
    *       ],
    *       "tariff_settings": {
+   *         "auth_metadata_id": "aum_6499d99e0c63830a644d08eb",
    *         "is_disabled": false,
    *         "integrated": true,
    *         "reference_id": "A1234567890",
@@ -355,13 +348,7 @@ export class ProductsModule extends FlatpeakModule {
    *         "last_update_time": 1654603424,
    *         "next_update_time": 1654693424,
    *         "failed_attempts": 0,
-   *         "auth_metadata": {
-   *           "reference_id": "trb_9dcd3359-73fd-41f2-9b13-04ca9b2fb877",
-   *           "data": {
-   *             "login": "demo@example.com",
-   *             "password": "demo"
-   *           }
-   *         }
+   *         "auth_metadata": {}
    *       },
    *       "devices": [
    *         "dev_021ff68976894b73b62ec1d71cd6bb7b",
@@ -408,7 +395,7 @@ export class ProductsModule extends FlatpeakModule {
    *         "live_mode": true,
    *         "customer_id": "cus_597d622c073e489487071035c35eb50c",
    *         "provider_id": "prv_5cb31f2f90eb48ec95d413bea1f0f606",
-   *         "timezone": "Europe/Tallinn",
+   *         "timezone": "Europe/Berlin",
    *         "postal_address": {
    *           "address_line1": "221b Baker St",
    *           "address_line2": "",
