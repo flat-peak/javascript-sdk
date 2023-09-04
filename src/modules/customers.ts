@@ -18,7 +18,7 @@ export class CustomersModule extends FlatpeakModule {
    * @param {Object} query
    * @param {string} [query.account_id] - FlatPeak unique account_id. If not specified default account id for the key will be used
    * @param {string} [query.ending_before] - Specifies a cursor for pagination use; provider_id defines the place in the list. To retrieve previous page in the list include ending_before where is the first id in the currently retrieved list.
-   * @param {string} [query.limit] - A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 30.
+   * @param {number} [query.limit] - A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 30.
    * @param {string} [query.starting_after] - Specifies a cursor for pagination use; provider_id defines the place in the list. To retrieve next page in the list include starting_after where id is the last id in the currently retrieved list.
    * @param {string} [query.reference_id] - Object identifier from third-party system
    * @param {boolean} [query.is_disabled] - Set to 'true' to include disabled objects
@@ -54,7 +54,7 @@ export class CustomersModule extends FlatpeakModule {
   list(query: {
     account_id?: string;
     ending_before?: string;
-    limit?: string;
+    limit?: number;
     starting_after?: string;
     reference_id?: string;
     is_disabled?: boolean;

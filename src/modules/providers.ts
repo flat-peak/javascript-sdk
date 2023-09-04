@@ -1,10 +1,10 @@
 import { FlatpeakModule } from "./flatpeak-module";
 import {
+  FailureResponse,
+  ListResponse,
   Provider,
   ProviderCreate,
   ProviderUpdate,
-  FailureResponse,
-  ListResponse,
 } from "../types";
 
 export class ProvidersModule extends FlatpeakModule {
@@ -17,7 +17,7 @@ export class ProvidersModule extends FlatpeakModule {
    * @param {string} [query.country_code] - ISO 3166-1 alpha-2 formatted country code
    * @param {string} [query.state] - Full state, region or locality name. For example 'California' or 'Scotland'
    * @param {string} [query.ending_before] - Specifies a cursor for pagination use; provider_id defines the place in the list. To retrieve previous page in the list include ending_before where is the first id in the currently retrieved list.
-   * @param {string} [query.limit] - A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 30.
+   * @param {number} [query.limit] - A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 30.
    * @param {string} [query.starting_after] - Specifies a cursor for pagination use; provider_id defines the place in the list. To retrieve next page in the list include starting_after where id is the last id in the currently retrieved list.
    * @param {string} [query.keywords] - Specifies keywords for finding providers by name.
    *
@@ -73,7 +73,7 @@ export class ProvidersModule extends FlatpeakModule {
     country_code?: string;
     state?: string;
     ending_before?: string;
-    limit?: string;
+    limit?: number;
     starting_after?: string;
     keywords?: string;
   }): Promise<ListResponse<Provider> | FailureResponse> {
