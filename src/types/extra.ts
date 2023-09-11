@@ -1,5 +1,17 @@
 import { PostalAddress, Tariff } from "./api";
 
+export interface FlatpeakApiConfig {
+  host: string;
+  publishableKey?: string;
+  secretKey?: string;
+  logger?: boolean | ((message: string) => void);
+}
+
+export interface FlatpeakApiCache {
+  bearerToken?: string;
+  accountId?: string;
+}
+
 export interface SaveTariffPayload {
   macAddress: string;
   timezone?: string;

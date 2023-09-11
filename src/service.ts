@@ -15,6 +15,8 @@ import {
   Tariff,
   TariffCreate,
   TariffSettings,
+  FlatpeakApiConfig,
+  FlatpeakApiCache,
 } from "./types";
 import { ProductsModule } from "./modules/products";
 import { TariffsModule } from "./modules/tariffs";
@@ -24,9 +26,16 @@ import { ProvidersModule } from "./modules/providers";
 import { FlatpeakModule } from "./modules/flatpeak-module";
 import { CustomersModule } from "./modules/customers";
 import { AccountModule } from "./modules/account";
+import { EventsModule } from "./modules/events";
+import { WebhooksModule } from "./modules/webhooks";
+import { LoginModule } from "./modules/login";
 
 export class FlatpeakService {
-  private modules: Array<FlatpeakModule>;
+  private readonly modules: Array<FlatpeakModule>;
+
+  private readonly config: Required<FlatpeakApiConfig>;
+
+  private readonly cache: FlatpeakApiCache;
 
   products: ProductsModule;
 
@@ -42,24 +51,55 @@ export class FlatpeakService {
 
   customers: CustomersModule;
 
+  events: EventsModule;
+
+  webhooks: WebhooksModule;
+
+  login: LoginModule;
+
   /**
    * @param {string} host
    * @param {string} publishableKey
    * @param {boolean|Function} [logger = false]
    */
   constructor(
-    private host: string,
-    private publishableKey: string,
-    private logger: boolean | ((message: string) => void) = false,
-  ) {
+    host: string,
+    publishableKey?: string,
+    logger?: boolean | ((message: string) => void),
+  );
+
+  /**
+   * @param {FlatpeakApiConfig} config
+   */
+  constructor(config: FlatpeakApiConfig);
+
+  constructor(...args: Array<never>) {
+    this.config =
+      typeof args[0] === "string"
+        ? {
+            host: args[0],
+            publishableKey: args[1],
+            secretKey: "",
+            logger: args[2],
+          }
+        : (args[0] as Required<FlatpeakApiConfig>);
+
+    const { host } = this.config;
+    if (!host) {
+      throw new TypeError("Required missing param: host");
+    }
+    this.cache = {};
     this.modules = [];
-    this.products = new ProductsModule(host, publishableKey, logger);
-    this.rates = new RatesModule(host, publishableKey, logger);
-    this.tariffs = new TariffsModule(host, publishableKey, logger);
-    this.accounts = new AccountModule(host, publishableKey, logger);
-    this.devices = new DevicesModule(host, publishableKey, logger);
-    this.providers = new ProvidersModule(host, publishableKey, logger);
-    this.customers = new CustomersModule(host, publishableKey, logger);
+    this.products = new ProductsModule(this.config, this.cache);
+    this.rates = new RatesModule(this.config, this.cache);
+    this.tariffs = new TariffsModule(this.config, this.cache);
+    this.accounts = new AccountModule(this.config, this.cache);
+    this.devices = new DevicesModule(this.config, this.cache);
+    this.providers = new ProvidersModule(this.config, this.cache);
+    this.customers = new CustomersModule(this.config, this.cache);
+    this.events = new EventsModule(this.config, this.cache);
+    this.webhooks = new WebhooksModule(this.config, this.cache);
+    this.login = new LoginModule(this.config, this.cache);
 
     this.modules.push(
       this.products,
@@ -69,25 +109,43 @@ export class FlatpeakService {
       this.devices,
       this.providers,
       this.customers,
+      this.events,
+      this.webhooks,
+      this.login,
     );
   }
 
   getHost(): string {
-    return this.host;
+    return this.config.host;
   }
 
   setHost(value: string) {
-    this.host = value;
-    this.modules.forEach((module) => module.setHost(value));
+    this.config.host = value;
+    this.destroyCache();
   }
 
   getPublishableKey(): string {
-    return this.publishableKey;
+    return this.config.publishableKey;
   }
 
   setPublishableKey(value: string) {
-    this.publishableKey = value;
-    this.modules.forEach((module) => module.setPublishableKey(value));
+    this.config.publishableKey = value;
+    this.destroyCache();
+  }
+
+  getSecretKey(): string {
+    return this.config.secretKey;
+  }
+
+  setSecretKey(value: string) {
+    this.config.secretKey = value;
+    this.destroyCache();
+  }
+
+  private destroyCache() {
+    Object.keys(this.cache).forEach((key) => {
+      this.cache[key as keyof FlatpeakApiCache] = undefined;
+    });
   }
 
   /**
@@ -425,14 +483,14 @@ export class FlatpeakService {
       ])
     ).map((result) => throwOnApiError(result));
 
-    let device: Device | undefined = undefined;
+    let device: Device | undefined;
     if (macAddress) {
       // can this mac be used?
       const { device_id } = throwOnApiError(
-          await this.devices.checkDeviceMac({
-            mac: macAddress,
-            ...(customerId && { customer_id: customerId }),
-          }),
+        await this.devices.checkDeviceMac({
+          mac: macAddress,
+          ...(customerId && { customer_id: customerId }),
+        }),
       );
 
       const isNewDevice = !device_id || !product.devices?.includes(device_id);

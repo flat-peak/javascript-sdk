@@ -23,7 +23,7 @@ export class RatesModule extends FlatpeakModule {
    * @return {Promise<Rate | FailureResponse>}
    *
    * @example
-   *     const output = await flatpeak.rates.retrieve(id, query);
+   *     const output = await flatpeak.rates.retrieve("dev_607c124e99c1401ca7fc3a5ca5ff9501", {rates_period: 1000});
    *
    *     console.log(output);
    *     {
@@ -163,7 +163,7 @@ export class RatesModule extends FlatpeakModule {
       rates_from?: string;
       rates_to?: string;
       product_id?: string;
-    },
+    } = {},
   ): Promise<Rate | FailureResponse> {
     return this.processRequest(
       this.performPublicRequest(
@@ -199,7 +199,7 @@ export class RatesModule extends FlatpeakModule {
    * @return {Promise<Rate | FailureResponse>}
    *
    * @example
-   *     const output = await flatpeak.rates.retrieve(id, query);
+   *     const output = await flatpeak.rates.retrieveForProduct("prd_24f2ceed33ec4ff39165e7b5b117df0b", {rates_period: 1000});
    *
    *     console.log(output);
    *     {
@@ -338,20 +338,17 @@ export class RatesModule extends FlatpeakModule {
       rates_type?: string;
       rates_from?: string;
       rates_to?: string;
-    },
+    } = {},
   ): Promise<Rate | FailureResponse> {
     return this.processRequest(
-      this.performPublicRequest(
+      this.performSignedRequest(
         `${this.host}/rates/product/${id}?${new URLSearchParams(
           query as Record<string, string>,
         ).toString()}`,
         {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Basic ${Buffer.from(`${id}:`).toString("base64")}`,
-          },
           method: "GET",
         },
+        "Bearer",
       ),
     );
   }

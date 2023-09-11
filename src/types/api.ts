@@ -157,7 +157,7 @@ export interface AuthToken {
   /**
    * Bearer token. Expires 30 minutes after issue.
    */
-  auth_token: string;
+  token: string;
 }
 
 export interface Consumption {
