@@ -191,12 +191,14 @@ export class TariffsModule extends FlatpeakModule {
    *       ]
    *     }
    */
-  list(query: {
-    account_id?: string;
-    starting_after?: string;
-    limit?: number;
-    ending_before?: string;
-  }): Promise<ListResponse<Tariff> | FailureResponse> {
+  list(
+    query: {
+      account_id?: string;
+      starting_after?: string;
+      limit?: number;
+      ending_before?: string;
+    } = {},
+  ): Promise<ListResponse<Tariff> | FailureResponse> {
     return this.processRequest(
       this.performSignedRequest(
         `${this.host}/tariffs?${new URLSearchParams(
@@ -205,6 +207,7 @@ export class TariffsModule extends FlatpeakModule {
         {
           method: "GET",
         },
+        "Bearer",
       ),
     );
   }

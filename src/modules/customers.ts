@@ -51,14 +51,16 @@ export class CustomersModule extends FlatpeakModule {
    *       ]
    *     }
    */
-  list(query: {
-    account_id?: string;
-    ending_before?: string;
-    limit?: number;
-    starting_after?: string;
-    reference_id?: string;
-    is_disabled?: boolean;
-  }): Promise<ListResponse<Customer> | FailureResponse> {
+  list(
+    query: {
+      account_id?: string;
+      ending_before?: string;
+      limit?: number;
+      starting_after?: string;
+      reference_id?: string;
+      is_disabled?: boolean;
+    } = {},
+  ): Promise<ListResponse<Customer> | FailureResponse> {
     return this.processRequest(
       this.performSignedRequest(
         `${this.host}/customers?${new URLSearchParams(
@@ -67,6 +69,7 @@ export class CustomersModule extends FlatpeakModule {
         {
           method: "GET",
         },
+        "Bearer",
       ),
     );
   }
@@ -163,9 +166,13 @@ export class CustomersModule extends FlatpeakModule {
    */
   delete(id: string): Promise<void | FailureResponse> {
     return this.processRequest(
-      this.performSignedRequest(`${this.host}/customers/${id}`, {
-        method: "DELETE",
-      }),
+      this.performSignedRequest(
+        `${this.host}/customers/${id}`,
+        {
+          method: "DELETE",
+        },
+        "Bearer",
+      ),
     );
   }
 

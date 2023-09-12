@@ -80,16 +80,18 @@ export class ProductsModule extends FlatpeakModule {
    *       ]
    *     }
    */
-  list(query: {
-    account_id?: string;
-    reference_id?: string;
-    customer_id?: string;
-    starting_after?: string;
-    limit?: number;
-    ending_before?: string;
-    is_disabled?: boolean;
-    failed_attempts?: string;
-  }): Promise<ListResponse<Product> | FailureResponse> {
+  list(
+    query: {
+      account_id?: string;
+      reference_id?: string;
+      customer_id?: string;
+      starting_after?: string;
+      limit?: number;
+      ending_before?: string;
+      is_disabled?: boolean;
+      failed_attempts?: string;
+    } = {},
+  ): Promise<ListResponse<Product> | FailureResponse> {
     return this.processRequest(
       this.performSignedRequest(
         `${this.host}/products?${new URLSearchParams(
@@ -98,6 +100,7 @@ export class ProductsModule extends FlatpeakModule {
         {
           method: "GET",
         },
+        "Bearer",
       ),
     );
   }
@@ -298,9 +301,13 @@ export class ProductsModule extends FlatpeakModule {
    */
   delete(id: string): Promise<void | FailureResponse> {
     return this.processRequest(
-      this.performSignedRequest(`${this.host}/products/${id}`, {
-        method: "DELETE",
-      }),
+      this.performSignedRequest(
+        `${this.host}/products/${id}`,
+        {
+          method: "DELETE",
+        },
+        "Bearer",
+      ),
     );
   }
 

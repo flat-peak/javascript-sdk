@@ -69,14 +69,16 @@ export class ProvidersModule extends FlatpeakModule {
    *       ]
    *     }
    */
-  list(query: {
-    country_code?: string;
-    state?: string;
-    ending_before?: string;
-    limit?: number;
-    starting_after?: string;
-    keywords?: string;
-  }): Promise<ListResponse<Provider> | FailureResponse> {
+  list(
+    query: {
+      country_code?: string;
+      state?: string;
+      ending_before?: string;
+      limit?: number;
+      starting_after?: string;
+      keywords?: string;
+    } = {},
+  ): Promise<ListResponse<Provider> | FailureResponse> {
     return this.processRequest(
       this.performSignedRequest(
         `${this.host}/providers?${new URLSearchParams(
@@ -141,7 +143,7 @@ export class ProvidersModule extends FlatpeakModule {
    */
   create(
     body: ProviderCreate,
-    query: { account_id?: string },
+    query: { account_id?: string } = {},
   ): Promise<Provider | FailureResponse> {
     return this.processRequest(
       this.performSignedRequest(

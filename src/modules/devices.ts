@@ -58,15 +58,17 @@ export class DevicesModule extends FlatpeakModule {
    *       ]
    *     }
    */
-  list(query: {
-    account_id?: string;
-    reference_id?: string;
-    mac?: string;
-    ending_before?: string;
-    limit?: number;
-    starting_after?: string;
-    is_disabled?: boolean;
-  }): Promise<ListResponse<Device> | FailureResponse> {
+  list(
+    query: {
+      account_id?: string;
+      reference_id?: string;
+      mac?: string;
+      ending_before?: string;
+      limit?: number;
+      starting_after?: string;
+      is_disabled?: boolean;
+    } = {},
+  ): Promise<ListResponse<Device> | FailureResponse> {
     return this.processRequest(
       this.performSignedRequest(
         `${this.host}/devices?${new URLSearchParams(
@@ -75,6 +77,7 @@ export class DevicesModule extends FlatpeakModule {
         {
           method: "GET",
         },
+        "Bearer",
       ),
     );
   }
@@ -233,9 +236,13 @@ export class DevicesModule extends FlatpeakModule {
    */
   delete(id: string): Promise<void | FailureResponse> {
     return this.processRequest(
-      this.performSignedRequest(`${this.host}/devices/${id}`, {
-        method: "DELETE",
-      }),
+      this.performSignedRequest(
+        `${this.host}/devices/${id}`,
+        {
+          method: "DELETE",
+        },
+        "Bearer",
+      ),
     );
   }
 
