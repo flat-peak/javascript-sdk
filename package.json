@@ -1,6 +1,6 @@
 {
   "name": "@flat-peak/javascript-sdk",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "This repository contains the open source FlatPeak JavaScript SDK.",
   "main": "./lib/cjs/index.js",
   "module": "./lib/cjs/index.js",
