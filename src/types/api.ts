@@ -632,6 +632,11 @@ export interface Product {
    * Time when the object was created, in UTC.
    */
   time_created: string;
+
+  /**
+   * Time and date when customer contract with energy provider expires.
+   */
+  contract_end_date?: string;
 }
 
 /**
@@ -1146,6 +1151,10 @@ export interface Tariff {
    * Expiration time, in UTC.
    */
   time_expiry?: string;
+  /**
+   * Time and date when customer contract with energy provider expires.
+   */
+  contract_end_date?: string;
   /**
    * The timezone of the tariff data in 'tz database format'. I.e. 'Europe/Berlin'.
    * https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
