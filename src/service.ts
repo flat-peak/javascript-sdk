@@ -30,7 +30,7 @@ import { EventsModule } from "./modules/events";
 import { WebhooksModule } from "./modules/webhooks";
 import { LoginModule } from "./modules/login";
 
-export class FlatpeakService {
+class FlatpeakService {
   private readonly modules: Array<FlatpeakModule>;
 
   private readonly config: Required<FlatpeakApiConfig>;
@@ -518,3 +518,20 @@ export class FlatpeakService {
     };
   }
 }
+
+
+
+export {
+  FlatpeakService,
+  FlatpeakModule,
+  ProductsModule,
+  TariffsModule,
+  RatesModule,
+  DevicesModule,
+  ProvidersModule,
+  CustomersModule,
+  AccountModule,
+  EventsModule,
+  WebhooksModule,
+  LoginModule
+};
